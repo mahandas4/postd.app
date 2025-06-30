@@ -54,11 +54,11 @@ const UserProfile = ({ user, onLogout }) => {
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center space-x-1 mb-1">
                   <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                  <span className="text-xl font-bold text-red-900">
+                  <span className="text-xl font-bold text-amber-800">
                     {user?.hostRating || '5.0'}
                   </span>
                 </div>
-                <p className="text-sm text-red-800">Host Rating</p>
+                <p className="text-sm text-amber-700">Host Rating</p>
                 <p className="text-xs text-gray-600">
                   {user?.totalRatings || 0} reviews
                 </p>
@@ -67,10 +67,10 @@ const UserProfile = ({ user, onLogout }) => {
             
             <Card className="bg-stone-200 border-stone-400">
               <CardContent className="p-4 text-center">
-                <div className="text-xl font-bold text-red-900 mb-1">
+                <div className="text-xl font-bold text-amber-800 mb-1">
                   {user?.age}
                 </div>
-                <p className="text-sm text-red-800">Years Old</p>
+                <p className="text-sm text-amber-700">Years Old</p>
               </CardContent>
             </Card>
           </div>
@@ -105,7 +105,7 @@ const UserProfile = ({ user, onLogout }) => {
                   Top Host ⭐
                 </Badge>
               )}
-              <Badge variant="secondary" className="bg-red-900 text-red-100">
+              <Badge variant="secondary" className="bg-amber-800 text-amber-100">
                 {user?.university} Student
               </Badge>
             </div>
@@ -127,7 +127,7 @@ const UserProfile = ({ user, onLogout }) => {
             
             <Button
               variant="outline"
-              className="w-full justify-start text-red-700 hover:text-red-800 hover:bg-red-50 border-red-700"
+              className="w-full justify-start text-amber-700 hover:text-amber-800 hover:bg-amber-50 border-amber-700"
               onClick={() => {
                 onLogout();
                 setIsOpen(false);

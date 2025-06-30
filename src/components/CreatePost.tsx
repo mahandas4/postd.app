@@ -94,7 +94,7 @@ const CreatePost = ({ user }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-stone-100">
+        <Button className="bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 text-stone-100">
           <Plus className="w-4 h-4 mr-2" />
           Post
         </Button>
@@ -183,7 +183,7 @@ const CreatePost = ({ user }) => {
                 <Badge
                   key={tag}
                   variant="secondary"
-                  className="bg-red-900 text-red-100 cursor-pointer hover:bg-red-800"
+                  className="bg-amber-800 text-amber-100 cursor-pointer hover:bg-amber-700"
                   onClick={() => removeTag(tag)}
                 >
                   #{tag} ×
@@ -216,7 +216,7 @@ const CreatePost = ({ user }) => {
                 className="flex-1 bg-stone-50 border-stone-400 text-black"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomTag())}
               />
-              <Button type="button" onClick={handleAddCustomTag} size="sm" className="bg-red-900 hover:bg-red-800 text-stone-100">
+              <Button type="button" onClick={handleAddCustomTag} size="sm" className="bg-amber-800 hover:bg-amber-700 text-stone-100">
                 <Tag className="w-4 h-4" />
               </Button>
             </div>
@@ -233,7 +233,7 @@ const CreatePost = ({ user }) => {
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-stone-100"
+              className="flex-1 bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 text-stone-100"
             >
               Post
             </Button>

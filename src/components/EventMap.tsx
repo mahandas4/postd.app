@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,9 +57,9 @@ const EventMap = ({ user }) => {
 
   const getTagColor = (tag) => {
     const colors = {
-      'Event': 'bg-red-900 text-red-100',
-      'Party': 'bg-red-800 text-red-100',
-      'BollywoodSociety': 'bg-amber-800 text-amber-100',
+      'Event': 'bg-amber-800 text-amber-100',
+      'Party': 'bg-amber-700 text-amber-100',
+      'BollywoodSociety': 'bg-yellow-800 text-yellow-100',
       'NonAlcoholic': 'bg-green-800 text-green-100',
       'Study': 'bg-blue-800 text-blue-100',
       'Academic': 'bg-indigo-800 text-indigo-100',
@@ -97,7 +96,7 @@ const EventMap = ({ user }) => {
             <div className="absolute top-4 left-6">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[0])}
               >
                 🎉
@@ -107,7 +106,7 @@ const EventMap = ({ user }) => {
             <div className="absolute top-12 right-8">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[1])}
               >
                 💃
@@ -117,7 +116,7 @@ const EventMap = ({ user }) => {
             <div className="absolute bottom-8 left-12">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[2])}
               >
                 📚
@@ -127,7 +126,7 @@ const EventMap = ({ user }) => {
             <div className="absolute bottom-4 right-4">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[3])}
               >
                 ⚽
@@ -193,7 +192,7 @@ const EventMap = ({ user }) => {
               </div>
               
               <Button 
-                className="w-full bg-red-900 hover:bg-red-800 text-white"
+                className="w-full bg-amber-800 hover:bg-amber-700 text-white"
               >
                 I'm Interested
               </Button>

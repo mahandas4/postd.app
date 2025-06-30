@@ -89,10 +89,10 @@ const PostFeed = ({ user }) => {
 
   const getTagColor = (tag) => {
     const colors = {
-      'Event': 'bg-red-900 text-red-100',
-      'Party': 'bg-red-800 text-red-100',
+      'Event': 'bg-amber-800 text-amber-100',
+      'Party': 'bg-amber-700 text-amber-100',
       'overheard': 'bg-stone-600 text-stone-100',
-      'BollywoodSociety': 'bg-amber-800 text-amber-100',
+      'BollywoodSociety': 'bg-yellow-800 text-yellow-100',
       'NonAlcoholic': 'bg-green-800 text-green-100',
       'Study': 'bg-blue-800 text-blue-100',
       'Academic': 'bg-indigo-800 text-indigo-100',
@@ -118,7 +118,7 @@ const PostFeed = ({ user }) => {
                 size="sm"
                 onClick={() => setSelectedTag(tag)}
                 className={selectedTag === tag 
-                  ? "bg-red-900 text-red-100 hover:bg-red-800" 
+                  ? "bg-amber-800 text-amber-100 hover:bg-amber-700" 
                   : "border-stone-400 hover:bg-stone-200"
                 }
               >

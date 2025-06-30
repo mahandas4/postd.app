@@ -77,8 +77,8 @@ const AuthForm = ({ onLogin }) => {
       <CardContent>
         <Tabs value={isLogin ? 'login' : 'signup'} onValueChange={(value) => setIsLogin(value === 'login')}>
           <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-200">
-            <TabsTrigger value="login" className="data-[state=active]:bg-red-900 data-[state=active]:text-red-100">Login</TabsTrigger>
-            <TabsTrigger value="signup" className="data-[state=active]:bg-red-900 data-[state=active]:text-red-100">Sign Up</TabsTrigger>
+            <TabsTrigger value="login" className="data-[state=active]:bg-amber-800 data-[state=active]:text-amber-100">Login</TabsTrigger>
+            <TabsTrigger value="signup" className="data-[state=active]:bg-amber-800 data-[state=active]:text-amber-100">Sign Up</TabsTrigger>
           </TabsList>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -204,7 +204,7 @@ const AuthForm = ({ onLogin }) => {
 
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-stone-100 font-medium py-2 rounded-lg transition-all duration-200"
+              className="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 text-stone-100 font-medium py-2 rounded-lg transition-all duration-200"
             >
               {isLogin ? 'Login' : 'Join POSTD'}
             </Button>

@@ -94,30 +94,30 @@ const CreatePost = ({ user }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
+        <Button className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-stone-100">
           <Plus className="w-4 h-4 mr-2" />
           Post
         </Button>
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-stone-100 border-stone-400">
         <DialogHeader>
-          <DialogTitle>Create New Post</DialogTitle>
+          <DialogTitle className="text-black">Create New Post</DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="content">What's happening?</Label>
+            <Label htmlFor="content" className="text-black">What's happening?</Label>
             <Textarea
               id="content"
               name="content"
               value={postData.content}
               onChange={handleInputChange}
               placeholder="Share something with your campus..."
-              className="min-h-24"
+              className="min-h-24 bg-stone-50 border-stone-400 text-black"
               maxLength={280}
             />
-            <p className="text-xs text-gray-500 text-right">
+            <p className="text-xs text-gray-600 text-right">
               {postData.content.length}/280
             </p>
           </div>
@@ -128,59 +128,62 @@ const CreatePost = ({ user }) => {
               checked={postData.isEvent}
               onCheckedChange={(checked) => setPostData({...postData, isEvent: checked})}
             />
-            <Label htmlFor="isEvent" className="flex items-center space-x-2">
+            <Label htmlFor="isEvent" className="flex items-center space-x-2 text-black">
               <Calendar className="w-4 h-4" />
               <span>This is an event</span>
             </Label>
           </div>
 
           {postData.isEvent && (
-            <div className="space-y-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="space-y-4 p-4 bg-stone-200 rounded-lg border border-stone-400">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="eventTime">Event Time</Label>
+                  <Label htmlFor="eventTime" className="text-black">Event Time</Label>
                   <Input
                     id="eventTime"
                     name="eventTime"
                     value={postData.eventTime}
                     onChange={handleInputChange}
                     placeholder="e.g., 9:00 PM"
+                    className="bg-stone-50 border-stone-400 text-black"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="location">Location</Label>
+                  <Label htmlFor="location" className="text-black">Location</Label>
                   <Input
                     id="location"
                     name="location"
                     value={postData.location}
                     onChange={handleInputChange}
                     placeholder="e.g., Student Union"
+                    className="bg-stone-50 border-stone-400 text-black"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="eventDetails">Event Details</Label>
+                <Label htmlFor="eventDetails" className="text-black">Event Details</Label>
                 <Input
                   id="eventDetails"
                   name="eventDetails"
                   value={postData.eventDetails}
                   onChange={handleInputChange}
                   placeholder="Additional details about your event"
+                  className="bg-stone-50 border-stone-400 text-black"
                 />
               </div>
             </div>
           )}
 
           <div className="space-y-2">
-            <Label>Tags</Label>
+            <Label className="text-black">Tags</Label>
             <div className="flex flex-wrap gap-2 mb-2">
               {postData.tags.map(tag => (
                 <Badge
                   key={tag}
                   variant="secondary"
-                  className="bg-purple-100 text-purple-700 cursor-pointer hover:bg-purple-200"
+                  className="bg-red-900 text-red-100 cursor-pointer hover:bg-red-800"
                   onClick={() => removeTag(tag)}
                 >
                   #{tag} ×
@@ -198,7 +201,7 @@ const CreatePost = ({ user }) => {
                   variant="outline"
                   size="sm"
                   onClick={() => addTag(tag)}
-                  className="text-xs hover:bg-purple-50"
+                  className="text-xs hover:bg-stone-200 border-stone-400"
                 >
                   #{tag}
                 </Button>
@@ -210,10 +213,10 @@ const CreatePost = ({ user }) => {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 placeholder="Add custom tag"
-                className="flex-1"
+                className="flex-1 bg-stone-50 border-stone-400 text-black"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomTag())}
               />
-              <Button type="button" onClick={handleAddCustomTag} size="sm">
+              <Button type="button" onClick={handleAddCustomTag} size="sm" className="bg-red-900 hover:bg-red-800 text-stone-100">
                 <Tag className="w-4 h-4" />
               </Button>
             </div>
@@ -224,13 +227,13 @@ const CreatePost = ({ user }) => {
               type="button"
               variant="outline"
               onClick={() => setIsOpen(false)}
-              className="flex-1"
+              className="flex-1 border-stone-400 hover:bg-stone-200"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              className="flex-1 bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-stone-100"
             >
               Post
             </Button>

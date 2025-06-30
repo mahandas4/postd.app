@@ -42,11 +42,11 @@ const Index = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-black via-stone-900 to-red-950 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-2">POSTD</h1>
-            <p className="text-purple-100 text-lg">Connect. Share. Discover.</p>
+            <h1 className="text-4xl font-bold text-stone-100 mb-2">POSTD</h1>
+            <p className="text-stone-300 text-lg">Connect. Share. Discover.</p>
           </div>
           <AuthForm onLogin={handleLogin} />
         </div>
@@ -55,15 +55,15 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-stone-100">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-purple-200 sticky top-0 z-50">
+      <header className="bg-black/90 backdrop-blur-md border-b border-stone-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-stone-100 to-red-300 bg-clip-text text-transparent">
               POSTD
             </h1>
-            <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+            <Badge variant="secondary" className="bg-red-900 text-red-100">
               {user?.university || 'Campus'}
             </Badge>
           </div>
@@ -78,12 +78,12 @@ const Index = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/50 backdrop-blur-sm">
-            <TabsTrigger value="feed" className="flex items-center space-x-2">
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-200 border border-stone-300">
+            <TabsTrigger value="feed" className="flex items-center space-x-2 data-[state=active]:bg-red-900 data-[state=active]:text-red-100">
               <MessageCircle className="w-4 h-4" />
               <span>Feed</span>
             </TabsTrigger>
-            <TabsTrigger value="map" className="flex items-center space-x-2">
+            <TabsTrigger value="map" className="flex items-center space-x-2 data-[state=active]:bg-red-900 data-[state=active]:text-red-100">
               <MapPin className="w-4 h-4" />
               <span>Events Map</span>
             </TabsTrigger>

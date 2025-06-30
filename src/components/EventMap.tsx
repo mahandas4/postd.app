@@ -3,209 +3,261 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Star, Calendar, Users } from 'lucide-react';
+import { MapPin, Calendar, Clock, Users } from 'lucide-react';
 
 const EventMap = ({ user }) => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const sampleEvents = [
-    {
-      id: 1,
-      title: "Epic house party tonight at Flat 12!",
-      location: "Student Village Block A",
-      coordinates: { lat: 51.5074, lng: -0.1278 },
-      time: "9:00 PM",
-      host: "PartyHost2024",
-      hostRating: 4.5,
-      attendees: 23,
-      tags: ["Party", "Event"],
-      description: "DJ playing bangers from 9PM 🎉🔥"
-    },
-    {
-      id: 2,
-      title: "Bollywood Society mixer",
-      location: "Student Union Building",
-      coordinates: { lat: 51.5085, lng: -0.1290 },
-      time: "7:00 PM Friday",
-      host: "BollyVibes",
-      hostRating: 4.8,
-      attendees: 67,
-      tags: ["BollywoodSociety", "NonAlcoholic", "Event"],
-      description: "Come for the vibes, stay for the samosas 🕺💃"
-    },
-    {
-      id: 3,
-      title: "Study Group Session",
-      location: "Library Study Room 3",
-      coordinates: { lat: 51.5065, lng: -0.1285 },
-      time: "2:00 PM",
-      host: "StudyBuddy",
-      hostRating: 4.2,
-      attendees: 8,
-      tags: ["Study", "Academic", "NonAlcoholic"],
-      description: "Calculus revision session - bring your textbooks!"
-    }
-  ];
-
+  // Mock events data - in a real app this would come from your backend
   useEffect(() => {
-    setEvents(sampleEvents);
+    const mockEvents = [
+      {
+        id: 1,
+        title: "Flat 12 Pre's @ 9PM 🎉",
+        location: "Student Village, Block A",
+        time: "9:00 PM",
+        tags: ["Event", "Party"],
+        hostRating: 4.8,
+        attendees: 15,
+        coordinates: { lat: 51.5074, lng: -0.1278 }
+      },
+      {
+        id: 2,
+        title: "Bollywood Society Dance Night",
+        location: "Student Union Building",
+        time: "7:30 PM",
+        tags: ["Event", "BollywoodSociety", "NonAlcoholic"],
+        hostRating: 4.9,
+        attendees: 32,
+        coordinates: { lat: 51.5084, lng: -0.1288 }
+      },
+      {
+        id: 3,
+        title: "Study Group - Computer Science",
+        location: "Library Level 3",
+        time: "2:00 PM",
+        tags: ["Study", "Academic"],
+        hostRating: 4.6,
+        attendees: 8,
+        coordinates: { lat: 51.5064, lng: -0.1268 }
+      },
+      {
+        id: 4,
+        title: "Football Match Viewing",
+        location: "Sports Bar",
+        time: "8:00 PM",
+        tags: ["Event", "Sports"],
+        hostRating: 4.7,
+        attendees: 22,
+        coordinates: { lat: 51.5094, lng: -0.1298 }
+      }
+    ];
+    setEvents(mockEvents);
   }, []);
 
-  const handleEventClick = (event) => {
-    setSelectedEvent(event);
+  const getTagColor = (tag) => {
+    const colors = {
+      'Event': 'bg-red-900 text-red-100',
+      'Party': 'bg-red-800 text-red-100',
+      'BollywoodSociety': 'bg-amber-800 text-amber-100',
+      'NonAlcoholic': 'bg-green-800 text-green-100',
+      'Study': 'bg-blue-800 text-blue-100',
+      'Academic': 'bg-indigo-800 text-indigo-100',
+      'Sports': 'bg-orange-800 text-orange-100'
+    };
+    return colors[tag] || 'bg-gray-800 text-gray-100';
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
-      {/* Map Placeholder */}
-      <div className="lg:col-span-2">
-        <Card className="h-full bg-white/80 backdrop-blur-sm border-purple-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <MapPin className="w-5 h-5 text-purple-600" />
-              <span>Events Near You</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="h-full p-0">
-            <div className="relative w-full h-full bg-gradient-to-br from-purple-100 to-blue-100 rounded-b-lg flex items-center justify-center">
-              {/* Simulated Map with Event Pins */}
-              <div className="relative w-full h-full overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-200 via-blue-200 to-purple-200 opacity-50"></div>
-                
-                {/* Event Pins */}
-                {events.map((event, index) => (
-                  <div
-                    key={event.id}
-                    className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-200 hover:scale-110 ${
-                      selectedEvent?.id === event.id ? 'scale-125 z-10' : 'z-0'
-                    }`}
-                    style={{
-                      left: `${30 + index * 25}%`,
-                      top: `${40 + index * 15}%`
-                    }}
-                    onClick={() => handleEventClick(event)}
-                  >
-                    <div className={`w-8 h-8 rounded-full border-2 border-white shadow-lg flex items-center justify-center ${
-                      event.tags.includes('Party') ? 'bg-pink-500' :
-                      event.tags.includes('BollywoodSociety') ? 'bg-orange-500' :
-                      'bg-blue-500'
-                    }`}>
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                    </div>
-                    
-                    {selectedEvent?.id === event.id && (
-                      <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-2 min-w-48 border border-purple-200">
-                        <p className="font-medium text-sm text-gray-900">{event.title}</p>
-                        <p className="text-xs text-gray-600">{event.time}</p>
-                      </div>
-                    )}
+    <div className="space-y-6">
+      {/* Map Header */}
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-black mb-2">
+          Events Near You
+        </h2>
+        <p className="text-gray-700">
+          Discover what's happening around campus
+        </p>
+      </div>
+
+      {/* Mock Map Area */}
+      <Card className="bg-stone-100 border-gray-300">
+        <CardContent className="p-6">
+          <div className="relative bg-stone-200 rounded-lg h-64 flex items-center justify-center border-2 border-dashed border-gray-400">
+            <div className="text-center">
+              <MapPin className="w-12 h-12 text-gray-600 mx-auto mb-2" />
+              <p className="text-gray-700 font-medium">Interactive Map</p>
+              <p className="text-sm text-gray-600">
+                Events would appear as pins here
+              </p>
+            </div>
+            
+            {/* Mock event pins */}
+            <div className="absolute top-4 left-6">
+              <Button
+                size="sm"
+                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                onClick={() => setSelectedEvent(events[0])}
+              >
+                🎉
+              </Button>
+            </div>
+            
+            <div className="absolute top-12 right-8">
+              <Button
+                size="sm"
+                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                onClick={() => setSelectedEvent(events[1])}
+              >
+                💃
+              </Button>
+            </div>
+            
+            <div className="absolute bottom-8 left-12">
+              <Button
+                size="sm"
+                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                onClick={() => setSelectedEvent(events[2])}
+              >
+                📚
+              </Button>
+            </div>
+            
+            <div className="absolute bottom-4 right-4">
+              <Button
+                size="sm"
+                className="w-8 h-8 rounded-full bg-red-900 hover:bg-red-800 text-white p-0"
+                onClick={() => setSelectedEvent(events[3])}
+              >
+                ⚽
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Selected Event Details */}
+      {selectedEvent && (
+        <Card className="bg-stone-50 border-gray-300">
+          <CardHeader className="pb-3">
+            <div className="flex items-start justify-between">
+              <div>
+                <CardTitle className="text-lg text-black">
+                  {selectedEvent.title}
+                </CardTitle>
+                <div className="flex items-center space-x-2 mt-1">
+                  <div className="flex items-center text-yellow-600">
+                    <span className="text-sm font-medium">
+                      ⭐ {selectedEvent.hostRating}
+                    </span>
                   </div>
-                ))}
-                
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 border border-purple-200">
-                  <p className="text-sm font-medium text-gray-800">Interactive Map Coming Soon!</p>
-                  <p className="text-xs text-gray-600">Click on the pins to see event details</p>
+                  <span className="text-gray-400">•</span>
+                  <div className="flex items-center text-gray-600">
+                    <Users className="w-4 h-4 mr-1" />
+                    <span className="text-sm">{selectedEvent.attendees}</span>
+                  </div>
                 </div>
               </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedEvent(null)}
+                className="text-gray-600 hover:text-black hover:bg-stone-200"
+              >
+                ✕
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="space-y-3">
+              <div className="flex items-center text-gray-700">
+                <MapPin className="w-4 h-4 mr-2" />
+                <span className="text-sm">{selectedEvent.location}</span>
+              </div>
+              
+              <div className="flex items-center text-gray-700">
+                <Clock className="w-4 h-4 mr-2" />
+                <span className="text-sm">{selectedEvent.time}</span>
+              </div>
+              
+              <div className="flex flex-wrap gap-2">
+                {selectedEvent.tags.map(tag => (
+                  <Badge
+                    key={tag}
+                    className={`text-xs ${getTagColor(tag)}`}
+                  >
+                    #{tag}
+                  </Badge>
+                ))}
+              </div>
+              
+              <Button 
+                className="w-full bg-red-900 hover:bg-red-800 text-white"
+              >
+                I'm Interested
+              </Button>
             </div>
           </CardContent>
         </Card>
-      </div>
+      )}
 
-      {/* Event Details Sidebar */}
+      {/* Events List */}
       <div className="space-y-4">
-        <Card className="bg-white/80 backdrop-blur-sm border-purple-200">
-          <CardHeader>
-            <CardTitle className="text-lg">Nearby Events</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 max-h-96 overflow-y-auto">
-            {events.map(event => (
-              <div
-                key={event.id}
-                className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 ${
-                  selectedEvent?.id === event.id
-                    ? 'border-purple-300 bg-purple-50'
-                    : 'border-gray-200 bg-white hover:border-purple-200 hover:bg-purple-25'
-                }`}
-                onClick={() => handleEventClick(event)}
-              >
-                <div className="space-y-2">
-                  <h3 className="font-medium text-gray-900 line-clamp-2">{event.title}</h3>
-                  
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Calendar className="w-3 h-3" />
-                    <span>{event.time}</span>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <MapPin className="w-3 h-3" />
-                    <span>{event.location}</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{event.hostRating}</span>
+        <h3 className="text-lg font-semibold text-black">
+          All Events ({events.length})
+        </h3>
+        
+        <div className="grid gap-4">
+          {events.map(event => (
+            <Card 
+              key={event.id} 
+              className="bg-stone-50 border-gray-300 hover:bg-stone-100 transition-colors cursor-pointer"
+              onClick={() => setSelectedEvent(event)}
+            >
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-black mb-1">
+                      {event.title}
+                    </h4>
+                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                      <div className="flex items-center">
+                        <MapPin className="w-3 h-3 mr-1" />
+                        {event.location}
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {event.time}
+                      </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-1 text-sm text-gray-600">
-                      <Users className="w-3 h-3" />
-                      <span>{event.attendees}</span>
+                    <div className="flex flex-wrap gap-1">
+                      {event.tags.slice(0, 3).map(tag => (
+                        <Badge
+                          key={tag}
+                          className={`text-xs ${getTagColor(tag)}`}
+                        >
+                          #{tag}
+                        </Badge>
+                      ))}
                     </div>
                   </div>
-                  
-                  <div className="flex flex-wrap gap-1">
-                    {event.tags.map(tag => (
-                      <Badge key={tag} variant="secondary" className="text-xs bg-purple-100 text-purple-700">
-                        #{tag}
-                      </Badge>
-                    ))}
+                  <div className="text-right">
+                    <div className="flex items-center text-yellow-600 mb-1">
+                      <span className="text-sm font-medium">
+                        ⭐ {event.hostRating}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <Users className="w-3 h-3 mr-1" />
+                      <span className="text-xs">{event.attendees}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        {selectedEvent && (
-          <Card className="bg-white/80 backdrop-blur-sm border-purple-200">
-            <CardHeader>
-              <CardTitle className="text-lg">Event Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h3 className="font-medium text-gray-900 mb-2">{selectedEvent.title}</h3>
-                <p className="text-sm text-gray-600">{selectedEvent.description}</p>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2 text-sm">
-                  <Calendar className="w-4 h-4 text-purple-600" />
-                  <span className="font-medium">{selectedEvent.time}</span>
-                </div>
-                
-                <div className="flex items-center space-x-2 text-sm">
-                  <MapPin className="w-4 h-4 text-purple-600" />
-                  <span>{selectedEvent.location}</span>
-                </div>
-                
-                <div className="flex items-center space-x-2 text-sm">
-                  <User className="w-4 h-4 text-purple-600" />
-                  <span>Hosted by {selectedEvent.host}</span>
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">{selectedEvent.hostRating}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
-                I'm Interested ({selectedEvent.attendees})
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

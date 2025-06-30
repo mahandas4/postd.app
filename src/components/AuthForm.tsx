@@ -68,23 +68,23 @@ const AuthForm = ({ onLogin }) => {
   };
 
   return (
-    <Card className="bg-white/90 backdrop-blur-md border-purple-200 shadow-xl">
+    <Card className="bg-stone-100/95 backdrop-blur-md border-stone-600 shadow-xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl text-gray-800">
+        <CardTitle className="text-2xl text-black">
           {isLogin ? 'Welcome Back' : 'Join POSTD'}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs value={isLogin ? 'login' : 'signup'} onValueChange={(value) => setIsLogin(value === 'login')}>
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-200">
+            <TabsTrigger value="login" className="data-[state=active]:bg-red-900 data-[state=active]:text-red-100">Login</TabsTrigger>
+            <TabsTrigger value="signup" className="data-[state=active]:bg-red-900 data-[state=active]:text-red-100">Sign Up</TabsTrigger>
           </TabsList>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <TabsContent value="login" className="space-y-4 mt-0">
               <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center space-x-2">
+                <Label htmlFor="email" className="flex items-center space-x-2 text-black">
                   <Mail className="w-4 h-4" />
                   <span>Email</span>
                 </Label>
@@ -95,12 +95,13 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@uni.ac.uk"
+                  className="bg-stone-50 border-stone-400 text-black"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="name" className="flex items-center space-x-2">
+                <Label htmlFor="name" className="flex items-center space-x-2 text-black">
                   <User className="w-4 h-4" />
                   <span>Name</span>
                 </Label>
@@ -110,6 +111,7 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Your name"
+                  className="bg-stone-50 border-stone-400 text-black"
                   required
                 />
               </div>
@@ -117,7 +119,7 @@ const AuthForm = ({ onLogin }) => {
 
             <TabsContent value="signup" className="space-y-4 mt-0">
               <div className="space-y-2">
-                <Label htmlFor="name" className="flex items-center space-x-2">
+                <Label htmlFor="name" className="flex items-center space-x-2 text-black">
                   <User className="w-4 h-4" />
                   <span>Full Name</span>
                 </Label>
@@ -127,12 +129,13 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Your full name"
+                  className="bg-stone-50 border-stone-400 text-black"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center space-x-2">
+                <Label htmlFor="email" className="flex items-center space-x-2 text-black">
                   <Mail className="w-4 h-4" />
                   <span>University Email</span>
                 </Label>
@@ -143,13 +146,14 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@uni.ac.uk"
+                  className="bg-stone-50 border-stone-400 text-black"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="age" className="flex items-center space-x-2">
+                  <Label htmlFor="age" className="flex items-center space-x-2 text-black">
                     <Calendar className="w-4 h-4" />
                     <span>Age</span>
                   </Label>
@@ -162,12 +166,13 @@ const AuthForm = ({ onLogin }) => {
                     placeholder="21"
                     min="16"
                     max="100"
+                    className="bg-stone-50 border-stone-400 text-black"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="university" className="flex items-center space-x-2">
+                  <Label htmlFor="university" className="flex items-center space-x-2 text-black">
                     <MapPin className="w-4 h-4" />
                     <span>University</span>
                   </Label>
@@ -177,13 +182,14 @@ const AuthForm = ({ onLogin }) => {
                     value={formData.university}
                     onChange={handleInputChange}
                     placeholder="University name"
+                    className="bg-stone-50 border-stone-400 text-black"
                     required
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="profilePicture">Profile Picture URL (Optional)</Label>
+                <Label htmlFor="profilePicture" className="text-black">Profile Picture URL (Optional)</Label>
                 <Input
                   id="profilePicture"
                   name="profilePicture"
@@ -191,13 +197,14 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.profilePicture}
                   onChange={handleInputChange}
                   placeholder="https://example.com/your-photo.jpg"
+                  className="bg-stone-50 border-stone-400 text-black"
                 />
               </div>
             </TabsContent>
 
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-2 rounded-lg transition-all duration-200"
+              className="w-full bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-stone-100 font-medium py-2 rounded-lg transition-all duration-200"
             >
               {isLogin ? 'Login' : 'Join POSTD'}
             </Button>

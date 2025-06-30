@@ -45,7 +45,7 @@ const Index = () => {
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-2">POSTD</h1>
+            <h1 className="text-4xl font-bold mb-2" style={{ color: '#fff1bd' }}>POSTD</h1>
             <p className="text-stone-300 text-lg">Connect. Share. Discover.</p>
           </div>
           <AuthForm onLogin={handleLogin} />
@@ -60,7 +60,7 @@ const Index = () => {
       <header className="bg-black border-b border-stone-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="text-2xl font-bold" style={{ color: '#fff1bd' }}>
               POSTD
             </h1>
             <Badge variant="secondary" className="bg-stone-800 text-stone-100">

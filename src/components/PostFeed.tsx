@@ -89,22 +89,22 @@ const PostFeed = ({ user }) => {
 
   const getTagColor = (tag) => {
     const colors = {
-      'Event': 'bg-amber-800 text-amber-100',
-      'Party': 'bg-amber-700 text-amber-100',
-      'overheard': 'bg-stone-600 text-stone-100',
-      'BollywoodSociety': 'bg-yellow-800 text-yellow-100',
-      'NonAlcoholic': 'bg-green-800 text-green-100',
-      'Study': 'bg-blue-800 text-blue-100',
-      'Academic': 'bg-indigo-800 text-indigo-100',
-      'Food': 'bg-orange-800 text-orange-100'
+      'Event': 'bg-black text-white',
+      'Party': 'bg-stone-800 text-white',
+      'overheard': 'bg-stone-600 text-white',
+      'BollywoodSociety': 'bg-stone-700 text-white',
+      'NonAlcoholic': 'bg-stone-500 text-white',
+      'Study': 'bg-stone-400 text-black',
+      'Academic': 'bg-stone-300 text-black',
+      'Food': 'bg-stone-200 text-black'
     };
-    return colors[tag] || 'bg-gray-800 text-gray-100';
+    return colors[tag] || 'bg-gray-800 text-white';
   };
 
   return (
     <div className="space-y-6">
       {/* Filter Tags */}
-      <Card className="bg-stone-100 border-stone-300">
+      <Card className="bg-white border-stone-200">
         <CardContent className="p-4">
           <div className="flex items-center space-x-2 mb-3">
             <Filter className="w-4 h-4 text-gray-700" />
@@ -118,8 +118,8 @@ const PostFeed = ({ user }) => {
                 size="sm"
                 onClick={() => setSelectedTag(tag)}
                 className={selectedTag === tag 
-                  ? "bg-amber-800 text-amber-100 hover:bg-amber-700" 
-                  : "border-stone-400 hover:bg-stone-200"
+                  ? "bg-black text-white hover:bg-stone-800" 
+                  : "border-stone-300 hover:bg-stone-100"
                 }
               >
                 {tag === 'All' ? 'All Posts' : `#${tag}`}
@@ -132,12 +132,12 @@ const PostFeed = ({ user }) => {
       {/* Posts */}
       <div className="space-y-4">
         {filteredPosts.map(post => (
-          <Card key={post.id} className="bg-stone-50 border-stone-300 hover:bg-stone-100 transition-colors">
+          <Card key={post.id} className="bg-white border-stone-200 hover:bg-stone-50 transition-colors">
             <CardHeader className="pb-3">
               <div className="flex items-start space-x-3">
                 <Avatar className="w-10 h-10">
                   <AvatarImage src={post.authorAvatar} />
-                  <AvatarFallback className="bg-stone-600 text-stone-100">
+                  <AvatarFallback className="bg-stone-600 text-white">
                     {post.author.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
@@ -159,7 +159,7 @@ const PostFeed = ({ user }) => {
               <p className="text-black mb-3">{post.content}</p>
               
               {post.isEvent && (
-                <div className="bg-stone-200 rounded-lg p-3 mb-3 border border-stone-400">
+                <div className="bg-stone-100 rounded-lg p-3 mb-3 border border-stone-200">
                   <div className="flex items-center space-x-4 text-sm text-gray-700">
                     <div className="flex items-center">
                       <MapPin className="w-3 h-3 mr-1" />
@@ -185,18 +185,18 @@ const PostFeed = ({ user }) => {
                 ))}
               </div>
               
-              <div className="flex items-center justify-between pt-2 border-t border-stone-300">
+              <div className="flex items-center justify-between pt-2 border-t border-stone-200">
                 <div className="flex items-center space-x-4">
-                  <Button variant="ghost" size="sm" className="text-gray-600 hover:text-red-600 hover:bg-red-50">
+                  <Button variant="ghost" size="sm" className="text-gray-600 hover:text-black hover:bg-stone-100">
                     <Heart className="w-4 h-4 mr-1" />
                     {post.likes}
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                  <Button variant="ghost" size="sm" className="text-gray-600 hover:text-black hover:bg-stone-100">
                     <MessageCircle className="w-4 h-4 mr-1" />
                     {post.comments}
                   </Button>
                 </div>
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-800 hover:bg-stone-200">
+                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-black hover:bg-stone-100">
                   <Share2 className="w-4 h-4" />
                 </Button>
               </div>

@@ -57,15 +57,15 @@ const EventMap = ({ user }) => {
 
   const getTagColor = (tag) => {
     const colors = {
-      'Event': 'bg-amber-800 text-amber-100',
-      'Party': 'bg-amber-700 text-amber-100',
-      'BollywoodSociety': 'bg-yellow-800 text-yellow-100',
-      'NonAlcoholic': 'bg-green-800 text-green-100',
-      'Study': 'bg-blue-800 text-blue-100',
-      'Academic': 'bg-indigo-800 text-indigo-100',
-      'Sports': 'bg-orange-800 text-orange-100'
+      'Event': 'bg-black text-white',
+      'Party': 'bg-stone-800 text-white',
+      'BollywoodSociety': 'bg-stone-700 text-white',
+      'NonAlcoholic': 'bg-stone-600 text-white',
+      'Study': 'bg-stone-500 text-white',
+      'Academic': 'bg-stone-400 text-black',
+      'Sports': 'bg-stone-300 text-black'
     };
-    return colors[tag] || 'bg-gray-800 text-gray-100';
+    return colors[tag] || 'bg-gray-800 text-white';
   };
 
   return (
@@ -81,9 +81,9 @@ const EventMap = ({ user }) => {
       </div>
 
       {/* Mock Map Area */}
-      <Card className="bg-stone-100 border-gray-300">
+      <Card className="bg-white border-stone-200">
         <CardContent className="p-6">
-          <div className="relative bg-stone-200 rounded-lg h-64 flex items-center justify-center border-2 border-dashed border-gray-400">
+          <div className="relative bg-stone-100 rounded-lg h-64 flex items-center justify-center border-2 border-dashed border-stone-300">
             <div className="text-center">
               <MapPin className="w-12 h-12 text-gray-600 mx-auto mb-2" />
               <p className="text-gray-700 font-medium">Interactive Map</p>
@@ -96,7 +96,7 @@ const EventMap = ({ user }) => {
             <div className="absolute top-4 left-6">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
+                className="w-8 h-8 rounded-full bg-black hover:bg-stone-800 text-white p-0"
                 onClick={() => setSelectedEvent(events[0])}
               >
                 🎉
@@ -106,7 +106,7 @@ const EventMap = ({ user }) => {
             <div className="absolute top-12 right-8">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
+                className="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[1])}
               >
                 💃
@@ -116,7 +116,7 @@ const EventMap = ({ user }) => {
             <div className="absolute bottom-8 left-12">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
+                className="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[2])}
               >
                 📚
@@ -126,7 +126,7 @@ const EventMap = ({ user }) => {
             <div className="absolute bottom-4 right-4">
               <Button
                 size="sm"
-                className="w-8 h-8 rounded-full bg-amber-800 hover:bg-amber-700 text-white p-0"
+                className="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-white p-0"
                 onClick={() => setSelectedEvent(events[3])}
               >
                 ⚽
@@ -138,7 +138,7 @@ const EventMap = ({ user }) => {
 
       {/* Selected Event Details */}
       {selectedEvent && (
-        <Card className="bg-stone-50 border-gray-300">
+        <Card className="bg-white border-stone-200">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div>
@@ -162,7 +162,7 @@ const EventMap = ({ user }) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedEvent(null)}
-                className="text-gray-600 hover:text-black hover:bg-stone-200"
+                className="text-gray-600 hover:text-black hover:bg-stone-100"
               >
                 ✕
               </Button>
@@ -192,7 +192,7 @@ const EventMap = ({ user }) => {
               </div>
               
               <Button 
-                className="w-full bg-amber-800 hover:bg-amber-700 text-white"
+                className="w-full bg-black hover:bg-stone-800 text-white"
               >
                 I'm Interested
               </Button>
@@ -211,7 +211,7 @@ const EventMap = ({ user }) => {
           {events.map(event => (
             <Card 
               key={event.id} 
-              className="bg-stone-50 border-gray-300 hover:bg-stone-100 transition-colors cursor-pointer"
+              className="bg-white border-stone-200 hover:bg-stone-50 transition-colors cursor-pointer"
               onClick={() => setSelectedEvent(event)}
             >
               <CardContent className="p-4">

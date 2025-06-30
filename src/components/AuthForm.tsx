@@ -68,7 +68,7 @@ const AuthForm = ({ onLogin }) => {
   };
 
   return (
-    <Card className="bg-stone-100/95 backdrop-blur-md border-stone-600 shadow-xl">
+    <Card className="bg-white border border-stone-200 shadow-lg">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl text-black">
           {isLogin ? 'Welcome Back' : 'Join POSTD'}
@@ -76,9 +76,9 @@ const AuthForm = ({ onLogin }) => {
       </CardHeader>
       <CardContent>
         <Tabs value={isLogin ? 'login' : 'signup'} onValueChange={(value) => setIsLogin(value === 'login')}>
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-200">
-            <TabsTrigger value="login" className="data-[state=active]:bg-amber-800 data-[state=active]:text-amber-100">Login</TabsTrigger>
-            <TabsTrigger value="signup" className="data-[state=active]:bg-amber-800 data-[state=active]:text-amber-100">Sign Up</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-100">
+            <TabsTrigger value="login" className="data-[state=active]:bg-black data-[state=active]:text-white">Login</TabsTrigger>
+            <TabsTrigger value="signup" className="data-[state=active]:bg-black data-[state=active]:text-white">Sign Up</TabsTrigger>
           </TabsList>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -95,7 +95,7 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@uni.ac.uk"
-                  className="bg-stone-50 border-stone-400 text-black"
+                  className="bg-stone-50 border-stone-300 text-black"
                   required
                 />
               </div>
@@ -111,7 +111,7 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Your name"
-                  className="bg-stone-50 border-stone-400 text-black"
+                  className="bg-stone-50 border-stone-300 text-black"
                   required
                 />
               </div>
@@ -129,7 +129,7 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Your full name"
-                  className="bg-stone-50 border-stone-400 text-black"
+                  className="bg-stone-50 border-stone-300 text-black"
                   required
                 />
               </div>
@@ -146,7 +146,7 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@uni.ac.uk"
-                  className="bg-stone-50 border-stone-400 text-black"
+                  className="bg-stone-50 border-stone-300 text-black"
                   required
                 />
               </div>
@@ -166,7 +166,7 @@ const AuthForm = ({ onLogin }) => {
                     placeholder="21"
                     min="16"
                     max="100"
-                    className="bg-stone-50 border-stone-400 text-black"
+                    className="bg-stone-50 border-stone-300 text-black"
                     required
                   />
                 </div>
@@ -182,7 +182,7 @@ const AuthForm = ({ onLogin }) => {
                     value={formData.university}
                     onChange={handleInputChange}
                     placeholder="University name"
-                    className="bg-stone-50 border-stone-400 text-black"
+                    className="bg-stone-50 border-stone-300 text-black"
                     required
                   />
                 </div>
@@ -197,14 +197,14 @@ const AuthForm = ({ onLogin }) => {
                   value={formData.profilePicture}
                   onChange={handleInputChange}
                   placeholder="https://example.com/your-photo.jpg"
-                  className="bg-stone-50 border-stone-400 text-black"
+                  className="bg-stone-50 border-stone-300 text-black"
                 />
               </div>
             </TabsContent>
 
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 text-stone-100 font-medium py-2 rounded-lg transition-all duration-200"
+              className="w-full bg-black hover:bg-stone-800 text-white font-medium py-2 rounded-lg transition-all duration-200"
             >
               {isLogin ? 'Login' : 'Join POSTD'}
             </Button>

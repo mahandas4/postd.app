@@ -1,15 +1,23 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, X } from 'lucide-react';
+import { Input } from "@/components/ui/input";
+import { MapPin, Clock, Users, X, Settings } from 'lucide-react';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const UKHeatmap = ({ user }) => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [mapboxToken, setMapboxToken] = useState('');
+  const [showTokenInput, setShowTokenInput] = useState(true);
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const markers = useRef([]);
 
-  // Mock UK events data with SVG coordinates (adjusted for UK map positioning)
+  // Mock UK events data with real coordinates
   useEffect(() => {
     const mockUKEvents = [
       {
@@ -22,8 +30,7 @@ const UKHeatmap = ({ user }) => {
         hostRating: 4.8,
         attendees: 150,
         intensity: 'high',
-        svgX: 380, // London position on SVG
-        svgY: 320
+        coordinates: [-0.1276, 51.5074] // London
       },
       {
         id: 2,
@@ -35,8 +42,7 @@ const UKHeatmap = ({ user }) => {
         hostRating: 4.9,
         attendees: 200,
         intensity: 'high',
-        svgX: 340, // Edinburgh position
-        svgY: 120
+        coordinates: [-3.1883, 55.9533] // Edinburgh
       },
       {
         id: 3,
@@ -48,8 +54,7 @@ const UKHeatmap = ({ user }) => {
         hostRating: 4.7,
         attendees: 85,
         intensity: 'medium',
-        svgX: 310, // Manchester position
-        svgY: 250
+        coordinates: [-2.2426, 53.4808] // Manchester
       },
       {
         id: 4,
@@ -61,8 +66,7 @@ const UKHeatmap = ({ user }) => {
         hostRating: 4.6,
         attendees: 60,
         intensity: 'medium',
-        svgX: 330, // Birmingham position
-        svgY: 280
+        coordinates: [-1.8904, 52.4862] // Birmingham
       },
       {
         id: 5,
@@ -74,8 +78,7 @@ const UKHeatmap = ({ user }) => {
         hostRating: 4.5,
         attendees: 25,
         intensity: 'low',
-        svgX: 290, // Bristol position
-        svgY: 320
+        coordinates: [-2.5879, 51.4545] // Bristol
       },
       {
         id: 6,
@@ -87,28 +90,88 @@ const UKHeatmap = ({ user }) => {
         hostRating: 4.8,
         attendees: 120,
         intensity: 'high',
-        svgX: 280, // Liverpool position
-        svgY: 230
+        coordinates: [-2.9916, 53.4084] // Liverpool
       }
     ];
     setEvents(mockUKEvents);
   }, []);
 
+  // Initialize map when token is provided
+  useEffect(() => {
+    if (!mapboxToken || !mapContainer.current) return;
+
+    mapboxgl.accessToken = mapboxToken;
+    
+    // Initialize map
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [-2.3, 54.8], // Center on UK
+      zoom: 5.5
+    });
+
+    // Add navigation controls
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    // Add markers for events
+    events.forEach(event => {
+      const markerElement = document.createElement('div');
+      markerElement.className = 'event-marker';
+      markerElement.style.width = getMarkerSize(event.intensity) + 'px';
+      markerElement.style.height = getMarkerSize(event.intensity) + 'px';
+      markerElement.style.backgroundColor = getIntensityColor(event.intensity);
+      markerElement.style.borderRadius = '50%';
+      markerElement.style.border = '3px solid white';
+      markerElement.style.cursor = 'pointer';
+      markerElement.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+      markerElement.style.transition = 'transform 0.2s';
+      
+      markerElement.addEventListener('mouseenter', () => {
+        markerElement.style.transform = 'scale(1.2)';
+      });
+      
+      markerElement.addEventListener('mouseleave', () => {
+        markerElement.style.transform = 'scale(1)';
+      });
+
+      markerElement.addEventListener('click', () => {
+        setSelectedEvent(event);
+      });
+
+      const marker = new mapboxgl.Marker(markerElement)
+        .setLngLat(event.coordinates)
+        .addTo(map.current);
+
+      markers.current.push(marker);
+    });
+
+    // Hide token input once map is loaded
+    setShowTokenInput(false);
+
+    return () => {
+      markers.current.forEach(marker => marker.remove());
+      markers.current = [];
+      if (map.current) {
+        map.current.remove();
+      }
+    };
+  }, [mapboxToken, events]);
+
   const getIntensityColor = (intensity) => {
     switch (intensity) {
-      case 'high': return '#ef4444'; // red-500
-      case 'medium': return '#f97316'; // orange-500
-      case 'low': return '#eab308'; // yellow-500
-      default: return '#6b7280'; // gray-500
+      case 'high': return '#ef4444';
+      case 'medium': return '#f97316';
+      case 'low': return '#eab308';
+      default: return '#6b7280';
     }
   };
 
-  const getIntensitySize = (intensity) => {
+  const getMarkerSize = (intensity) => {
     switch (intensity) {
-      case 'high': return 12;
-      case 'medium': return 10;
-      case 'low': return 8;
-      default: return 8;
+      case 'high': return 20;
+      case 'medium': return 16;
+      case 'low': return 12;
+      default: return 12;
     }
   };
 
@@ -129,6 +192,12 @@ const UKHeatmap = ({ user }) => {
     return colors[tag] || 'bg-stone-500 text-white';
   };
 
+  const handleTokenSubmit = () => {
+    if (mapboxToken.trim()) {
+      // Token will trigger map initialization via useEffect
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Map Header */}
@@ -137,81 +206,154 @@ const UKHeatmap = ({ user }) => {
           UK Events Map
         </h2>
         <p className="text-stone-400">
-          Click on the markers to see event details
+          Interactive map showing live events across the UK
         </p>
       </div>
 
-      {/* Interactive UK Map */}
-      <Card className="bg-stone-900 border-stone-800">
-        <CardContent className="p-6">
-          <div className="relative bg-stone-800 rounded-lg overflow-hidden">
-            <svg
-              viewBox="0 0 500 600"
-              className="w-full h-auto"
-              style={{ minHeight: '400px' }}
-            >
-              {/* UK Map Path - Simplified outline */}
-              <path
-                d="M 200 500 L 220 480 L 240 460 L 250 440 L 260 420 L 270 400 L 280 380 L 290 360 L 300 340 L 310 320 L 320 300 L 330 280 L 340 260 L 350 240 L 360 220 L 370 200 L 380 180 L 390 160 L 400 140 L 410 120 L 420 100 L 430 80 L 440 60 L 450 40 L 460 20 L 450 10 L 440 5 L 430 10 L 420 15 L 410 20 L 400 25 L 390 30 L 380 35 L 370 40 L 360 45 L 350 50 L 340 55 L 330 60 L 320 65 L 310 70 L 300 75 L 290 80 L 280 85 L 270 90 L 260 95 L 250 100 L 240 110 L 230 120 L 220 130 L 210 140 L 200 150 L 190 160 L 180 170 L 170 180 L 160 190 L 150 200 L 140 210 L 130 220 L 120 230 L 110 240 L 100 250 L 90 260 L 80 270 L 70 280 L 60 290 L 50 300 L 40 310 L 30 320 L 25 330 L 30 340 L 40 350 L 50 360 L 60 370 L 70 380 L 80 390 L 90 400 L 100 410 L 110 420 L 120 430 L 130 440 L 140 450 L 150 460 L 160 470 L 170 480 L 180 490 L 190 500 Z
-                
-                M 320 50 L 340 40 L 360 35 L 380 40 L 390 50 L 380 60 L 360 65 L 340 60 L 320 50 Z"
-                fill="#374151"
-                stroke="#6b7280"
-                strokeWidth="2"
-                className="opacity-80"
+      {/* Mapbox Token Input */}
+      {showTokenInput && (
+        <Card className="bg-stone-900 border-stone-800">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center space-x-2">
+              <Settings className="w-5 h-5" />
+              <span>Setup Map</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-stone-400 text-sm">
+              To display the interactive map, please enter your Mapbox public token. 
+              Get one free at{' '}
+              <a 
+                href="https://mapbox.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                mapbox.com
+              </a>
+            </p>
+            <div className="flex space-x-2">
+              <Input
+                type="text"
+                placeholder="pk.eyJ1IjoieW91cnVzZXJuYW1lIiwi..."
+                value={mapboxToken}
+                onChange={(e) => setMapboxToken(e.target.value)}
+                className="bg-stone-800 border-stone-700 text-white"
               />
-              
-              {/* Event Markers */}
-              {events.map((event) => (
-                <g key={event.id}>
-                  <circle
-                    cx={event.svgX}
-                    cy={event.svgY}
-                    r={getIntensitySize(event.intensity)}
-                    fill={getIntensityColor(event.intensity)}
-                    stroke="white"
-                    strokeWidth="2"
-                    className="cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => setSelectedEvent(event)}
-                  />
-                  <circle
-                    cx={event.svgX}
-                    cy={event.svgY}
-                    r={getIntensitySize(event.intensity) + 4}
-                    fill="none"
-                    stroke={getIntensityColor(event.intensity)}
-                    strokeWidth="1"
-                    className="opacity-50 animate-pulse"
-                  />
-                </g>
-              ))}
-            </svg>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Legend */}
-      <Card className="bg-stone-900 border-stone-800">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-stone-400">Activity Level:</span>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <span className="text-xs text-stone-400">Low (1-50)</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                <span className="text-xs text-stone-400">Medium (51-100)</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <span className="text-xs text-stone-400">High (100+)</span>
-              </div>
+              <Button 
+                onClick={handleTokenSubmit}
+                className="bg-stone-700 hover:bg-stone-600"
+              >
+                Load Map
+              </Button>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Interactive Map */}
+        <div className="lg:col-span-2">
+          <Card className="bg-stone-900 border-stone-800">
+            <CardContent className="p-0">
+              <div 
+                ref={mapContainer} 
+                className="w-full h-96 lg:h-[500px] rounded-lg"
+                style={{ minHeight: '400px' }}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Legend */}
+          <Card className="bg-stone-900 border-stone-800 mt-4">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-stone-400">Activity Level:</span>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <span className="text-xs text-stone-400">Low (1-50)</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                    <span className="text-xs text-stone-400">Medium (51-100)</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <span className="text-xs text-stone-400">High (100+)</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Events List Sidebar */}
+        <div className="space-y-4">
+          <Card className="bg-stone-900 border-stone-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg text-white">
+                Live Events ({events.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 max-h-96 overflow-y-auto">
+              {events.map((event) => (
+                <div
+                  key={event.id}
+                  className={`p-3 rounded-lg border cursor-pointer transition-colors ${
+                    selectedEvent?.id === event.id
+                      ? 'bg-stone-700 border-stone-600'
+                      : 'bg-stone-800 border-stone-700 hover:bg-stone-750'
+                  }`}
+                  onClick={() => setSelectedEvent(event)}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-medium text-white text-sm leading-tight">
+                      {event.title}
+                    </h3>
+                    <div
+                      className="w-3 h-3 rounded-full flex-shrink-0 ml-2"
+                      style={{ backgroundColor: getIntensityColor(event.intensity) }}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center text-stone-400 text-xs">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      <span>{event.city}</span>
+                    </div>
+                    <div className="flex items-center text-stone-400 text-xs">
+                      <Clock className="w-3 h-3 mr-1" />
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="flex items-center text-stone-400 text-xs">
+                      <Users className="w-3 h-3 mr-1" />
+                      <span>{event.attendees}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Quick Stats */}
+          <div className="grid grid-cols-1 gap-3">
+            <Card className="bg-stone-900 border-stone-800">
+              <CardContent className="p-4 text-center">
+                <div className="text-xl font-bold text-white">{events.length}</div>
+                <div className="text-xs text-stone-400">Active Events</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-stone-900 border-stone-800">
+              <CardContent className="p-4 text-center">
+                <div className="text-xl font-bold text-white">
+                  {events.reduce((acc, event) => acc + event.attendees, 0)}
+                </div>
+                <div className="text-xs text-stone-400">Total Attendees</div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Selected Event Details */}
       {selectedEvent && (
@@ -277,24 +419,6 @@ const UKHeatmap = ({ user }) => {
           </CardContent>
         </Card>
       )}
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 gap-4">
-        <Card className="bg-stone-900 border-stone-800">
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-white">{events.length}</div>
-            <div className="text-sm text-stone-400">Active Events</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-stone-900 border-stone-800">
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-white">
-              {events.reduce((acc, event) => acc + event.attendees, 0)}
-            </div>
-            <div className="text-sm text-stone-400">Total Attendees</div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 };
